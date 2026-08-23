@@ -10,6 +10,7 @@ export default function ShiftSummaryModal({
   routes = [],
   assignment = {},
   economics = null,
+  isOptimized = false,
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -27,14 +28,15 @@ export default function ShiftSummaryModal({
     report_title: 'GreenFlow AI — Shift Dispatch & Sustainability Report',
     timestamp: new Date().toISOString(),
     scenario,
+    is_optimized: isOptimized,
     fleet_dispatch: {
       active_vehicles: assignedVehiclesCount,
       total_fleet: totalVehicles,
       fleet_utilisation_pct: ((assignedVehiclesCount / totalVehicles) * 100).toFixed(0),
     },
     performance_metrics: {
-      fuel_litres: { baseline: baselineKpis.fuelL || 0, optimized: kpis.fuelL || 0, saved: fuelSaved },
-      carbon_co2_kg: { baseline: baselineKpis.co2Kg || 0, optimized: kpis.co2Kg || 0, avoided: co2Avoided },
+      fuel_litres: { baseline: baselineKpis.fuelL || 0, current_plan: kpis.fuelL || 0, saved: fuelSaved },
+      carbon_co2_kg: { baseline: baselineKpis.co2Kg || 0, current_plan: kpis.co2Kg || 0, avoided: co2Avoided },
       economic_inr: { direct_fuel_cost_saved: directCostSaved, avoided_carbon_shadow_value: shadowValue, combined_impact: combinedImpact },
     },
     compliance: '100% hard constraints satisfied (capacity, route coverage, vehicle availability).',
@@ -69,6 +71,12 @@ export default function ShiftSummaryModal({
         </div>
 
         <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {!isOptimized && (
+            <div style={{ background: 'rgba(234, 179, 8, 0.1)', border: '1px solid var(--accent-amber)', padding: '8px 12px', borderRadius: '4px', fontSize: '11.5px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ color: 'var(--accent-amber)', fontWeight: 700 }}>● OPTIMIZATION PENDING:</span>
+              <span>This is the baseline dispatch. Run <b>'Plan Routes'</b> in the top toolbar to calculate realized fuel, spend, and carbon savings.</span>
+            </div>
+          )}
           {/* Top Metrics Row */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
             <div style={{ background: 'var(--bg-inset)', padding: '10px', borderRadius: '4px', border: '1px solid var(--line-soft)' }}>
