@@ -49,6 +49,7 @@ export default function RoutesSubpanel({
   })
 
   const everyRouteAssigned = routes.every((r) => routeCoverage[r.id] === 1)
+  const unassignedRoutesCount = routes.filter((r) => (routeCoverage[r.id] || 0) === 0).length
   const noDoubleBooking = vehicles.every((v) => (assignment[v.id] || []).length <= maxRoutesPerVehicle)
   const noUnavailableUsed = vehicles.every((v) => isVehicleAvailable(v) || (assignment[v.id] || []).length === 0)
   const capacityViolations = []
@@ -198,7 +199,7 @@ export default function RoutesSubpanel({
                   <span className="rec-chip-val text-blue">{recommendation.expected_impact.fuel_saved}</span>
                 </div>
                 <div className="rec-chip" title="Based on the actual fuel mix and applicable fuel prices across optimized assignments.">
-                  <span className="rec-chip-label">Direct Spend Saved</span>
+                  <span className="rec-chip-label">Direct Fuel Spend Saved</span>
                   <span className="rec-chip-val text-amber">{recommendation.expected_impact.direct_fuel_saving}</span>
                 </div>
               </div>
