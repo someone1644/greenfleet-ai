@@ -300,18 +300,18 @@ export default function App() {
     }, 2800)
   }, [])
 
-  // Baseline Calculation (Deterministic 1-to-1 baseline)
+  // Baseline Calculation (Deterministic 1-to-1 baseline & peak uncoordinated benchmark)
   const computeBaseline = useCallback(() => {
     const base = {}
     VEHICLES_INIT.forEach((v) => { base[v.id] = [] })
 
     if (scenario === 'peak') {
-      // Peak baseline: V005 in maintenance
-      base['V001'] = ['R01']
-      base['V002'] = ['R02']
-      base['V003'] = ['R03']
-      base['V004'] = ['R04']
-      base['V005'] = []
+      // Peak baseline: V005 in maintenance breakdown; uncoordinated dispatch overloads high-emission vehicles
+      base['V001'] = ['R03'] // Mini Truck
+      base['V002'] = ['R01', 'R05'] // Refrigerated Van handling multiple routes
+      base['V003'] = [] // Left unassigned in initial surge
+      base['V004'] = ['R02', 'R04', 'R06'] // Heavy Truck forced onto 3 routes including Anna Nagar surge
+      base['V005'] = [] // Breakdown in maintenance
     } else {
       // Normal baseline: clean 1-to-1 assignment
       base['V001'] = ['R01']
@@ -332,7 +332,7 @@ export default function App() {
 
   // Compute KPIs
   const computeKPIs = (assignMap) => {
-    let fuelL = 0, co2Kg = 0, costINR = 0, inefficientTrips = 0, assignedCount = 0
+    let fuelL = 0, co2Kg = 0, costINR = 0, inefficientTrips = 0
     const routes = currentRoutes
 
     VEHICLES_INIT.forEach((v) => {
@@ -344,13 +344,14 @@ export default function App() {
         fuelL += litres
         co2Kg += litres * v.co2Factor
         costINR += litres * 95 + r.distanceKm * 8
-        assignedCount += 1
         if (v.capacity < r.demand) inefficientTrips += 1
       })
+      if (rids.length > 2) inefficientTrips += (rids.length - 2)
     })
 
-    const capacitySlots = VEHICLES_INIT.length * (scenario === 'peak' ? 2 : 1)
-    const utilisationPct = Math.min(100, (assignedCount / capacitySlots) * 100)
+    const activeVehicles = Object.keys(assignMap).filter((vid) => (assignMap[vid] || []).length > 0).length
+    const totalFleet = VEHICLES_INIT.length
+    const utilisationPct = Math.min(100, (activeVehicles / totalFleet) * 100)
 
     return { fuelL, co2Kg, costINR, utilisationPct, inefficientTrips }
   }
