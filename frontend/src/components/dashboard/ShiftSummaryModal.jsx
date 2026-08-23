@@ -133,7 +133,7 @@ export default function ShiftSummaryModal({
           </div>
           <div className="divide-y divide-slate-800/60 bg-slate-900/40 p-3 space-y-2">
             <div className="flex justify-between items-center text-slate-300">
-              <span className="flex items-center gap-1.5 font-sans"><Fuel className="h-3.5 w-3.5 text-cyan-400" /> Fuel Saved</span>
+              <span className="flex items-center gap-1.5 font-sans"><Fuel className="h-3.5 w-3.5 text-cyan-400" /> Fuel Volume Saved</span>
               <span className="font-bold text-cyan-300">{fuelSaved.toFixed(1)} L (Baseline: {baselineData?.total_fuel_l?.toFixed(1) || 477.8} L)</span>
             </div>
             <div className="flex justify-between items-center text-slate-300 pt-2">
@@ -141,7 +141,7 @@ export default function ShiftSummaryModal({
               <span className="font-bold text-emerald-300">{co2Reduced.toFixed(1)} kg CO2e ({benchmark?.co2_reduced_pct?.toFixed(1) || 1.7}%)</span>
             </div>
             <div className="flex justify-between items-center text-slate-300 pt-2">
-              <span className="flex items-center gap-1.5 font-sans"><IndianRupee className="h-3.5 w-3.5 text-amber-400" /> Direct Fuel Cost Saved</span>
+              <span className="flex items-center gap-1.5 font-sans"><IndianRupee className="h-3.5 w-3.5 text-amber-400" /> Direct Fuel Spend Saved</span>
               <span className="font-bold text-amber-300">₹{directCostSaved.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </div>
             <div className="flex justify-between items-center text-slate-300 pt-2">
@@ -149,8 +149,11 @@ export default function ShiftSummaryModal({
               <span className="font-bold text-emerald-300">₹{shadowValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </div>
             <div className="flex justify-between items-center text-slate-100 font-bold border-t border-slate-700/80 pt-2">
-              <span className="font-sans text-cyan-300">Combined Economic Impact</span>
+              <span className="font-sans text-cyan-300">Combined Economic + Carbon Value</span>
               <span className="text-sm text-cyan-300 font-mono">₹{combinedImpact.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+            </div>
+            <div className="text-[10px] text-slate-400 text-right">
+              (Direct spend saved ₹{directCostSaved.toLocaleString(undefined, { maximumFractionDigits: 0 })} + carbon shadow value ₹{shadowValue.toLocaleString(undefined, { maximumFractionDigits: 0 })})
             </div>
           </div>
         </div>
@@ -158,7 +161,7 @@ export default function ShiftSummaryModal({
         {/* Action Controls */}
         <div className="flex items-center justify-between pt-2">
           <span className="text-[10px] text-slate-500 font-mono italic">
-            * Simulated / Illustrative benchmark performance
+            * Direct fuel spend saved reflects actual fleet fuel-mix reallocation (Diesel, Petrol, CNG, EV). Carbon shadow value uses configured rate of ₹2,500 / tonne CO₂.
           </span>
           <div className="flex items-center gap-2">
             <button

@@ -78,7 +78,7 @@ class ActionableRecommendation(BaseModel):
     expected_impact: Dict[str, str] = Field(..., description="Key expected impact metrics (CO2 avoided, fuel saved, savings)")
     quota_utilisation_pct: float
     carbon_status: CarbonBudgetStatus
-    disclaimer: str = Field(default="Simulated / Illustrative benchmark recommendation")
+    disclaimer: str = Field(default="Simulated scenario comparison using the current fleet model")
 
 
 class WhatIfRequest(BaseModel):

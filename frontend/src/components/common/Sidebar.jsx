@@ -19,10 +19,6 @@ export default function Sidebar({
     { key: 'order_status', label: 'Order Status' },
     { key: 'rescheduled', label: 'Rescheduled Orders' },
     { key: 'arrival_accuracy', label: 'Arrival Accuracy' },
-    { key: 'order_type', label: 'Order Type' },
-    { key: 'time_worked', label: 'Time Worked' },
-    { key: 'distance_traveled', label: 'Distance Traveled' },
-    { key: 'customer_feedback', label: 'Customer Feedback' },
     { key: 'plan_history', label: 'Plan History' },
   ]
 

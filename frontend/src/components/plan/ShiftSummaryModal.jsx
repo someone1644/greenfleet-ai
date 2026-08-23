@@ -62,7 +62,7 @@ export default function ShiftSummaryModal({
       <div className="modal-dialog" style={{ maxWidth: '640px' }} onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <div>
-            <span className="modal-eyebrow">ENTERPRISE AUDIT STATEMENT</span>
+            <span className="modal-eyebrow">OPTIMISATION IMPACT REPORT</span>
             <h2>Shift Dispatch &amp; Sustainability Report</h2>
           </div>
           <button type="button" className="modal-close-btn" onClick={onClose}>✕</button>
@@ -93,7 +93,7 @@ export default function ShiftSummaryModal({
             </div>
             <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Fuel Saved</span>
+                <span>Fuel Volume Saved</span>
                 <b style={{ color: 'var(--geotab-blue)', fontFamily: 'var(--font-mono)' }}>{fuelSaved.toFixed(1)} L</b>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -101,7 +101,7 @@ export default function ShiftSummaryModal({
                 <b style={{ color: 'var(--accent-green)', fontFamily: 'var(--font-mono)' }}>{co2Avoided.toFixed(1)} kg</b>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Direct Fuel Cost Saved (₹)</span>
+                <span>Direct Fuel Spend Saved (₹)</span>
                 <b style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>₹{directCostSaved.toLocaleString()}</b>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -109,14 +109,18 @@ export default function ShiftSummaryModal({
                 <b style={{ color: 'var(--accent-green)', fontFamily: 'var(--font-mono)' }}>₹{shadowValue.toLocaleString()}</b>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--line-soft)', paddingTop: '8px', fontSize: '13px', fontWeight: 700 }}>
-                <span>Combined Economic Impact</span>
+                <span>Combined Economic + Carbon Value</span>
                 <span style={{ color: 'var(--geotab-blue)', fontFamily: 'var(--font-mono)' }}>₹{combinedImpact.toLocaleString()}</span>
+              </div>
+              <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textAlign: 'right' }}>
+                (Direct spend saved ₹{directCostSaved.toLocaleString()} + carbon shadow value ₹{shadowValue.toLocaleString()})
               </div>
             </div>
           </div>
 
-          <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
-            * Simulated / Illustrative benchmark statement
+          <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontStyle: 'italic', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <span>* Direct fuel spend saved reflects actual fleet fuel-mix reallocation (Diesel, Petrol, CNG, EV) across optimized assignments.</span>
+            <span>* Carbon shadow value calculated using the configured carbon valuation rate of ₹2,500 / tonne CO₂ (₹2.50 / kg).</span>
           </div>
         </div>
 

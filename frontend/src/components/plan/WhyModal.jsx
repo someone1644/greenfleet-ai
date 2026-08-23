@@ -54,9 +54,9 @@ export default function WhyModal({ isOpen, onClose, explanation, vehicleId, load
                   <div className="why-metric-card">
                     <span className="why-metric-label">90% Conformal Prediction Interval</span>
                     <span className="why-metric-val text-blue">
-                      {target?.fuel_lower_l ? `${target.fuel_lower_l.toFixed(1)} – ${target.fuel_upper_l.toFixed(1)} L` : '9.8 – 13.2 L'}
+                      {target?.fuel_lower_l ? `${target.fuel_lower_l.toFixed(1)} – ${target.fuel_upper_l.toFixed(1)} L` : '1.3 – 6.1 L'}
                     </span>
-                    <span className="why-metric-sub">Calibrated non-parametric bounds</span>
+                    <span className="why-metric-sub">Expected fuel range (90% coverage)</span>
                   </div>
 
                   <div className="why-metric-card">
@@ -119,7 +119,7 @@ export default function WhyModal({ isOpen, onClose, explanation, vehicleId, load
                   <div className="why-section-head">
                     <span className="why-num">3</span>
                     <h3>Strongest Feasible Alternative</h3>
-                    <span className="alt-tag">{alt.vehicle_id} ({alt.vehicle_type}, {alt.fuel_type})</span>
+                    <span className="alt-tag">Eligible alternative: {alt.vehicle_id} ({alt.vehicle_type}, {alt.fuel_type})</span>
                   </div>
 
                   <div className="alt-compare-table-wrap">

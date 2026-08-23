@@ -83,7 +83,7 @@ export default function WhatIfModal({ isOpen, onClose }) {
 
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11.5px', marginBottom: '4px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Fuel Price</span>
+                <span style={{ color: 'var(--text-secondary)' }}>Diesel Benchmark Price</span>
                 <b style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>₹{dieselPrice} / L</b>
               </div>
               <input

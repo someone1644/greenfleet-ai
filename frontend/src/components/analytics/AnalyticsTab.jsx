@@ -126,45 +126,12 @@ export default function AnalyticsTab({
           </>
         )
 
-      case 'customer_feedback':
-        return (
-          <div className="panel" style={{ padding: '16px' }}>
-            <div className="analytics-title-row">
-              <h2>Customer Delivery Reviews &amp; CSAT</h2>
-              <span>Verified feedback</span>
-            </div>
-            <div className="feedback-list">
-              <div className="feedback-item">
-                <div className="feedback-top">
-                  <span><span className="feedback-stars">★★★★★</span> ORD-3002 · Besant Nagar</span>
-                  <span>Today</span>
-                </div>
-                <div className="feedback-text">Delivery arrived exactly within the promised 15-minute slot. Driver was courteous.</div>
-              </div>
-              <div className="feedback-item">
-                <div className="feedback-top">
-                  <span><span className="feedback-stars">★★★★☆</span> ORD-1002 · St Thomas Mount</span>
-                  <span>Yesterday</span>
-                </div>
-                <div className="feedback-text">On time, outer packaging slightly bent but goods in perfect condition.</div>
-              </div>
-              <div className="feedback-item">
-                <div className="feedback-top">
-                  <span><span className="feedback-stars">★★☆☆☆</span> ORD-4002 · Porur</span>
-                  <span>2 days ago</span>
-                </div>
-                <div className="feedback-text">Delayed due to traffic along Porur junction without proactive SMS alert.</div>
-              </div>
-            </div>
-          </div>
-        )
-
       case 'plan_history':
         return (
           <div className="panel analytics-chart-card">
             <div className="analytics-title-row">
-              <h2>Plan History &amp; Optimisation Audit</h2>
-              <span>Recent solver runs</span>
+              <h2>Plan History &amp; Optimisation Impact</h2>
+              <span>Solver runs &amp; dispatch audits</span>
             </div>
             <table className="data-table" style={{ marginTop: '12px' }}>
               <thead>
@@ -177,9 +144,9 @@ export default function AnalyticsTab({
                 </tr>
               </thead>
               <tbody>
-                <tr><td className="mono">22-08-2026</td><td className="mono">{routes.length}</td><td className="mono">102.7 km</td><td>Simulated Annealing</td><td><span className="pill-inline pill-Standard">Active</span></td></tr>
-                <tr><td className="mono">21-08-2026</td><td className="mono">5</td><td className="mono">98.4 km</td><td>Simulated Annealing</td><td><span className="pill-inline pill-Standard">Completed</span></td></tr>
-                <tr><td className="mono">20-08-2026</td><td className="mono">5</td><td className="mono">104.2 km</td><td>Simulated Annealing</td><td><span className="pill-inline pill-Standard">Completed</span></td></tr>
+                <tr><td className="mono">22-08-2026</td><td className="mono">{routes.length}</td><td className="mono">102.7 km</td><td>Simulated Annealing (QUBO)</td><td><span className="pill-inline pill-Standard">Active</span></td></tr>
+                <tr><td className="mono">21-08-2026</td><td className="mono">12</td><td className="mono">98.4 km</td><td>Simulated Annealing (QUBO)</td><td><span className="pill-inline pill-Standard">Completed</span></td></tr>
+                <tr><td className="mono">20-08-2026</td><td className="mono">12</td><td className="mono">104.2 km</td><td>Simulated Annealing (QUBO)</td><td><span className="pill-inline pill-Standard">Completed</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -189,9 +156,10 @@ export default function AnalyticsTab({
         return (
           <div className="panel analytics-chart-card">
             <div className="analytics-title-row">
-              <h2>{activeCategory.replace('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</h2>
+              <h2>Plan History &amp; Optimisation Impact</h2>
+              <span>Solver runs &amp; dispatch audits</span>
             </div>
-            <p className="detail-empty" style={{ marginTop: '12px' }}>Analytics records loaded for {activeCategory.replace('_', ' ')}.</p>
+            <p className="detail-empty" style={{ marginTop: '12px' }}>Select an analytics category from the sidebar.</p>
           </div>
         )
     }

@@ -93,7 +93,7 @@ export default function RoutesSubpanel({
       <section className="kpi-strip" aria-label="Key performance indicators">
         {/* Fuel Consumption */}
         <div className="kpi-card">
-          <span className="kpi-label">Fuel Consumption</span>
+          <span className="kpi-label">Current Plan Fuel</span>
           <div className="kpi-value-row">
             <span className="kpi-value">{(kpis.fuelL || 0).toFixed(1)}</span>
             <span className="kpi-unit">L</span>
@@ -146,7 +146,7 @@ export default function RoutesSubpanel({
 
         {/* Fuel Saved */}
         <div className="kpi-card">
-          <span className="kpi-label">Fuel Saved</span>
+          <span className="kpi-label">Fuel Volume Saved</span>
           <div className="kpi-value-row">
             <span className="kpi-value">{Math.max(0, (baselineKpis.fuelL || 0) - (kpis.fuelL || 0)).toFixed(1)}</span>
             <span className="kpi-unit">L</span>
@@ -162,8 +162,10 @@ export default function RoutesSubpanel({
           <div className="kpi-value-row">
             <span className="kpi-value">{kpis.inefficientTrips || 0}</span>
           </div>
-          <span className={`kpi-delta ${kpis.inefficientTrips === 0 ? 'good' : 'bad'}`}>
-            {kpis.inefficientTrips === 0 ? 'Optimal match' : `${kpis.inefficientTrips} flag(s)`}
+          <span className={`kpi-delta ${kpis.inefficientTrips === 0 ? (isOptimized ? 'good' : 'neutral') : 'bad'}`}>
+            {!isOptimized
+              ? (unassignedRoutesCount > 0 ? 'Constraint conflict' : 'Optimization pending')
+              : (kpis.inefficientTrips === 0 ? 'Optimal feasible assignment' : `${kpis.inefficientTrips} flag(s)`)}
           </span>
         </div>
       </section>
@@ -192,11 +194,11 @@ export default function RoutesSubpanel({
                   <span className="rec-chip-val text-green">{recommendation.expected_impact.co2_avoided}</span>
                 </div>
                 <div className="rec-chip">
-                  <span className="rec-chip-label">Fuel Saved</span>
+                  <span className="rec-chip-label">Fuel Volume Saved</span>
                   <span className="rec-chip-val text-blue">{recommendation.expected_impact.fuel_saved}</span>
                 </div>
-                <div className="rec-chip">
-                  <span className="rec-chip-label">Direct Saving</span>
+                <div className="rec-chip" title="Based on the actual fuel mix and applicable fuel prices across optimized assignments.">
+                  <span className="rec-chip-label">Direct Spend Saved</span>
                   <span className="rec-chip-val text-amber">{recommendation.expected_impact.direct_fuel_saving}</span>
                 </div>
               </div>
@@ -529,7 +531,7 @@ export default function RoutesSubpanel({
 
           <div className="insight-block">
             <p className="insight-copy">
-              Assignments are formulated as binary decisions <code>x&#8320;&#7522;</code> — vehicle <em>i</em> to route <em>j</em> — over a QUBO-style cost surface combining fuel, emissions, distance and imbalance penalties.
+              Vehicle-route assignments are formulated as binary QUBO decisions, balancing fuel consumption, emissions, distance and fleet constraints.
             </p>
             <div className="method-tags">
               <span className="tag">QUBO Assignment</span>
