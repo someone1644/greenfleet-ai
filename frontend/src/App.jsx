@@ -559,6 +559,8 @@ export default function App() {
             vehicles={vehicles}
             routes={currentRoutes}
             assignment={assignment}
+            isOptimized={isOptimized}
+            scenario={scenario}
           />
         )}
 
@@ -600,6 +602,10 @@ export default function App() {
         routes={currentRoutes}
         assignment={assignment}
         isOptimized={isOptimized}
+        onNavigateToLedger={() => {
+          setActiveTab('analytics')
+          setAnalyticsCategory('carbon_ledger')
+        }}
       />
 
       <AddOrderModal

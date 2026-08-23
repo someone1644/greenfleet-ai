@@ -11,6 +11,7 @@ export default function ShiftSummaryModal({
   assignment = {},
   economics = null,
   isOptimized = false,
+  onNavigateToLedger,
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -38,6 +39,12 @@ export default function ShiftSummaryModal({
       fuel_litres: { baseline: baselineKpis.fuelL || 0, current_plan: kpis.fuelL || 0, saved: fuelSaved },
       carbon_co2_kg: { baseline: baselineKpis.co2Kg || 0, current_plan: kpis.co2Kg || 0, avoided: co2Avoided },
       economic_inr: { direct_fuel_cost_saved: directCostSaved, avoided_carbon_shadow_value: shadowValue, combined_impact: combinedImpact },
+    },
+    carbon_ledger: {
+      potential_credit_equivalent_tco2e: Number((co2Avoided / 1000).toFixed(4)),
+      verification_status: 'Not verified',
+      methodology_status: 'Quantification only',
+      disclaimer: 'Potential credit-equivalent values represent quantified emission reductions only. They are not verified or issued carbon credits.',
     },
     compliance: '100% hard constraints satisfied (capacity, route coverage, vehicle availability).',
     disclaimer: 'Authoritative Quantum-Inspired Optimization benchmark results',
@@ -126,9 +133,47 @@ export default function ShiftSummaryModal({
             </div>
           </div>
 
+          {/* Carbon Ledger Quantification Section */}
+          <div style={{
+            border: '1px solid var(--line-soft)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '10px 14px',
+            background: 'var(--bg-inset)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '12px',
+          }}>
+            <div>
+              <span style={{ fontSize: '10.5px', color: 'var(--text-tertiary)', textTransform: 'uppercase', display: 'block', letterSpacing: '0.04em' }}>
+                Carbon Ledger Quantification
+              </span>
+              <span style={{ fontWeight: 600, color: 'var(--accent-blue)' }}>
+                Potential Credit Equivalent: {(co2Avoided / 1000).toFixed(4)} tCO₂e
+              </span>
+              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', marginLeft: '8px' }}>
+                (Status: Not Verified)
+              </span>
+            </div>
+            {onNavigateToLedger && (
+              <button
+                type="button"
+                className="btn btn-ghost"
+                style={{ fontSize: '11px', padding: '5px 10px', fontWeight: 600, color: 'var(--geotab-blue)' }}
+                onClick={() => {
+                  onClose()
+                  onNavigateToLedger()
+                }}
+              >
+                View in Carbon Ledger →
+              </button>
+            )}
+          </div>
+
           <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontStyle: 'italic', display: 'flex', flexDirection: 'column', gap: '2px' }}>
             <span>* Direct fuel spend saved reflects actual fleet fuel-mix reallocation (Diesel, Petrol, CNG, EV) across optimized assignments.</span>
             <span>* Carbon shadow value calculated using the configured carbon valuation rate of ₹2,500 / tonne CO₂ (₹2.50 / kg).</span>
+            <span>* Potential credit-equivalent values represent quantified emission reductions only. They are not verified or issued carbon credits.</span>
           </div>
         </div>
 

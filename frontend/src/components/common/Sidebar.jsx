@@ -16,6 +16,7 @@ export default function Sidebar({
 
   const analyticsCategories = [
     { key: 'planned_vs_actual', label: 'Planned vs. Actual' },
+    { key: 'carbon_ledger', label: 'Carbon Ledger' },
     { key: 'order_status', label: 'Order Status' },
     { key: 'rescheduled', label: 'Rescheduled Orders' },
     { key: 'arrival_accuracy', label: 'Arrival Accuracy' },

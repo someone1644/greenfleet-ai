@@ -111,6 +111,11 @@ class SimulationEngine:
             # GreenFlow assignments and benchmark ready for trigger
             self.greenflow_assignments = []
             self.benchmark = None
+            try:
+                from simulation.carbon_ledger import carbon_ledger_store
+                carbon_ledger_store.reset()
+            except Exception:
+                pass
             
             self.status = "ready (normal fleet)"
             self.last_updated = datetime.utcnow().isoformat()
@@ -246,6 +251,19 @@ class SimulationEngine:
                 cost_saved_pct=cost_pct,
                 inefficient_assignments_reduced=ineff_diff,
             )
+
+            # Record optimization run in the Carbon Credits Ledger
+            try:
+                from simulation.carbon_ledger import carbon_ledger_store
+                sc_name = self.scenario.value if hasattr(self.scenario, 'value') else str(self.scenario)
+                carbon_ledger_store.record_run(
+                    baseline_co2_kg=baseline_kpi.estimated_co2_kg,
+                    optimised_co2_kg=greenflow_kpi.estimated_co2_kg,
+                    scenario=sc_name,
+                    carbon_shadow_rate_per_tonne=self.carbon_pricing.internal_shadow_price_per_tonne,
+                )
+            except Exception:
+                pass
             
             self.status = f"optimized ({method})"
             self.last_updated = datetime.utcnow().isoformat()
