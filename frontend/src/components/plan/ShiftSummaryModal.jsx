@@ -26,7 +26,7 @@ export default function ShiftSummaryModal({
   const combinedImpact = directCostSaved + shadowValue
 
   const reportPayload = {
-    report_title: 'GreenFlow AI — Shift Dispatch & Sustainability Report',
+    report_title: 'GreenFleet AI — Shift Dispatch & Sustainability Report',
     timestamp: new Date().toISOString(),
     scenario,
     is_optimized: isOptimized,
@@ -60,7 +60,7 @@ export default function ShiftSummaryModal({
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reportPayload, null, 2))
     const downloadAnchor = document.createElement('a')
     downloadAnchor.setAttribute('href', dataStr)
-    downloadAnchor.setAttribute('download', `greenflow_shift_report_${scenario}_${Date.now()}.json`)
+    downloadAnchor.setAttribute('download', `greenfleet_shift_report_${scenario}_${Date.now()}.json`)
     document.body.appendChild(downloadAnchor)
     downloadAnchor.click()
     downloadAnchor.remove()

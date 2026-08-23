@@ -69,7 +69,7 @@ export default function CarbonLedgerPanel({ isOptimized = false, scenario = 'nor
             Carbon Impact &amp; Credit Ledger
           </h2>
           <p style={{ fontSize: '12.5px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-            Quantified emissions reductions from GreenFlow optimisation runs.
+            Quantified emissions reductions from GreenFleet optimisation runs.
           </p>
         </div>
         <button

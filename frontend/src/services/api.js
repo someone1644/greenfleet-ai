@@ -1,5 +1,5 @@
 /**
- * GreenFlow AI - Central Frontend API Client
+ * GreenFleet AI - Central Frontend API Client
  * Centralizes all backend REST communication with the FastAPI server.
  */
 

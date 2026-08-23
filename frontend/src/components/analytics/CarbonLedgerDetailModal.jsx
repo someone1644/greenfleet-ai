@@ -113,7 +113,7 @@ export default function CarbonLedgerDetailModal({ isOpen, onClose, record }) {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--line-soft, #E2E8F0)', paddingBottom: '4px' }}>
-                <span>2. Optimised GreenFlow CO₂</span>
+                <span>2. Optimised GreenFleet CO₂</span>
                 <span className="mono font-bold">− {record.optimised_co2_kg?.toFixed(1)} kg</span>
               </div>
 

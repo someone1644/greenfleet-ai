@@ -32,7 +32,7 @@ export default function Sidebar({
           <path d="M9 16.5 L13.2 20.5 L21.5 10.5" stroke="#4C8DFF" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <div className="brand-text">
-          <span className="brand-name">GreenFlow<span className="brand-ai">AI</span></span>
+          <span className="brand-name">GreenFleet<span className="brand-ai">AI</span></span>
           <span className="brand-sub">Fleet Optimisation Console</span>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function Sidebar({
         </div>
         <div className="status-pill" data-state={isRunning ? 'running' : (isOptimized ? 'optimised' : 'idle')}>
           <span className="status-dot"></span>
-          <span className="status-label">Plan · <strong>{isRunning ? 'Running Solver…' : (isOptimized ? 'GreenFlow Optimised' : 'Baseline (Unoptimised)')}</strong></span>
+          <span className="status-label">Plan · <strong>{isRunning ? 'Running Solver…' : (isOptimized ? 'GreenFleet Optimised' : 'Baseline (Unoptimised)')}</strong></span>
         </div>
       </div>
     </aside>

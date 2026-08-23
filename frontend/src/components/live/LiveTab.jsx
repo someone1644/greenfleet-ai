@@ -325,7 +325,7 @@ export default function LiveTab({
                   <Popup>
                     <div className="map-popup">
                       <strong>DEPOT</strong>
-                      <div className="map-popup-sub">GreenFlow AI Fleet Hub</div>
+                      <div className="map-popup-sub">GreenFleet AI Fleet Hub</div>
                     </div>
                   </Popup>
                 </Marker>

@@ -569,7 +569,7 @@ export default function App() {
 
         {/* Global Footer */}
         <footer className="footer">
-          <span>GreenFlow AI · Fleet Optimisation Console</span>
+          <span>GreenFleet AI · Fleet Optimisation Console</span>
         </footer>
       </div>
 
