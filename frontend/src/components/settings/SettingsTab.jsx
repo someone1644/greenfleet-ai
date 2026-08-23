@@ -177,9 +177,7 @@ export default function SettingsTab({ carbonBudget, onShowToast, onVehicleRegist
 
         {/* Optimization Defaults */}
         <section className="panel settings-card">
-          <h2>
-            Optimisation Defaults <span className="badge-soon">Advanced</span>
-          </h2>
+          <h2>Advanced Optimisation Settings</h2>
           <div className="field-row">
             <label>Active Solver Engine</label>
             <select defaultValue="sa">
@@ -250,8 +248,7 @@ export default function SettingsTab({ carbonBudget, onShowToast, onVehicleRegist
         <section className="panel settings-card">
           <h2>Register Vehicle</h2>
           <p className="insight-copy" style={{ marginBottom: '10px' }}>
-            Adds a vehicle to the fleet registry. Its type, fuel, age, and capacity
-            feed directly into the fuel/CO₂ prediction used for route assignment.
+            Adds a vehicle to the fleet registry. Changes affect future route planning and fuel/emission prediction.
           </p>
           <form onSubmit={handleRegisterVehicle}>
             <div className="field-row">

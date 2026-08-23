@@ -17,11 +17,11 @@ import api from './services/api.js'
 // Deterministic Fleet & Route Specifications
 // ---------------------------------------------------------------------------
 const VEHICLES_INIT = [
-  { id: 'V001', driver: 'Driver 001', type: 'Mini Truck', fuel: 'Diesel', capacity: 12, efficiency: 11.5, co2Factor: 2.68, availableNormally: true },
-  { id: 'V002', driver: 'Driver 002', type: 'Refrigerated Van', fuel: 'Diesel', capacity: 10, efficiency: 9.2, co2Factor: 2.68, availableNormally: true },
-  { id: 'V003', driver: 'Driver 003', type: 'Delivery Van', fuel: 'Petrol', capacity: 14, efficiency: 13.8, co2Factor: 2.31, availableNormally: true },
-  { id: 'V004', driver: 'Driver 004', type: 'Heavy Truck', fuel: 'Diesel', capacity: 20, efficiency: 6.4, co2Factor: 2.68, availableNormally: true },
-  { id: 'V005', driver: 'Driver 005', type: 'Light Van (CNG)', fuel: 'CNG', capacity: 8, efficiency: 16.1, co2Factor: 2.1, availableNormally: true },
+  { id: 'V001', driver: 'Driver 001', type: 'Van', fuel: 'Hybrid', capacity: 12, efficiency: 18.5, co2Factor: 1.85, availableNormally: true },
+  { id: 'V002', driver: 'Driver 002', type: 'Van', fuel: 'Hybrid', capacity: 12, efficiency: 17.8, co2Factor: 1.85, availableNormally: true },
+  { id: 'V003', driver: 'Driver 003', type: 'Van', fuel: 'Petrol', capacity: 15, efficiency: 12.5, co2Factor: 2.31, availableNormally: true },
+  { id: 'V004', driver: 'Driver 004', type: 'Van', fuel: 'Diesel', capacity: 16, efficiency: 13.2, co2Factor: 2.68, availableNormally: true },
+  { id: 'V005', driver: 'Driver 005', type: 'Light Commercial', fuel: 'Hybrid', capacity: 32, efficiency: 11.4, co2Factor: 1.85, availableNormally: true },
 ]
 
 const ROUTES_BASE = [
@@ -64,7 +64,7 @@ const ORDERS_INIT = [
 const CO2_FACTORS_BY_FUEL = {
   Diesel: 2.68,
   Petrol: 2.31,
-  Hybrid: 1.7325, // DEFRA petrol factor x0.75 powertrain efficiency
+  Hybrid: 1.85, // DEFRA hybrid conversion factor
   CNG: 1.95,
   Electric: 0.45,
   EV: 0.45,
@@ -186,9 +186,9 @@ export default function App() {
           : 'Normal baseline operations active. Uncoordinated heuristic dispatch leaves efficiency and emissions savings unrealised.',
         recommended_action: 'Execute Quantum-Inspired optimization to balance payload, fuel cost, and carbon impact.',
         expected_impact: {
-          co2_avoided: '21.6 kg CO2e',
-          fuel_saved: '2.5 L',
-          direct_fuel_saving: '₹2,530',
+          co2_avoided: '—',
+          fuel_saved: '—',
+          direct_fuel_saving: '—',
         },
       })
     }
@@ -248,8 +248,8 @@ export default function App() {
         has_alternative: true,
         alternative: {
           vehicle_id: v.id === 'V001' ? 'V003' : 'V001',
-          vehicle_type: v.id === 'V001' ? 'Delivery Van' : 'Mini Truck',
-          fuel_type: v.id === 'V001' ? 'Petrol' : 'Diesel',
+          vehicle_type: 'Van',
+          fuel_type: v.id === 'V001' ? 'Petrol' : 'Hybrid',
           predicted_fuel_l: Number((expectedFuel + 3.7).toFixed(1)),
           estimated_co2_kg: Number((expectedFuel * v.co2Factor + 9.8).toFixed(1)),
           overall_suitability_score: 71.2,
@@ -284,25 +284,19 @@ export default function App() {
 
   // Baseline Calculation
   const computeBaseline = useCallback(() => {
-    const routes = scenario === 'peak' ? [...ROUTES_BASE, ROUTE_SURGE] : ROUTES_BASE
     const base = {}
     VEHICLES_INIT.forEach((v) => { base[v.id] = [] })
 
-    const used = new Set()
-    routes.forEach((r) => {
+    currentRoutes.forEach((r, idx) => {
       const candidate = VEHICLES_INIT.find(
-        (v) => (v.id !== 'V005' || scenario !== 'peak') && !used.has(v.id)
-      )
-      if (candidate) {
-        base[candidate.id].push(r.id)
-        used.add(candidate.id)
-      }
+        (v) => (scenario === 'peak' ? true : v.availableNormally) && v.capacity >= r.demand
+      ) || VEHICLES_INIT[idx % VEHICLES_INIT.length]
+      base[candidate.id] = [...(base[candidate.id] || []), r.id]
     })
 
     setBaselineAssignment(base)
     setAssignment(base)
-    setIsOptimized(false)
-  }, [scenario])
+  }, [currentRoutes, scenario])
 
   useEffect(() => {
     computeBaseline()
@@ -321,7 +315,7 @@ export default function App() {
         const litres = r.distanceKm / v.efficiency
         fuelL += litres
         co2Kg += litres * v.co2Factor
-        costINR += litres * 94 + r.distanceKm * 8
+        costINR += litres * 95 + r.distanceKm * 8
         assignedCount += 1
         if (v.capacity < r.demand) inefficientTrips += 1
       })
@@ -531,10 +525,7 @@ export default function App() {
 
         {/* Global Footer */}
         <footer className="footer">
-          <span>GreenFlow AI · Full-Featured Driver Efficiency &amp; Route Optimization Platform</span>
-          <span className="footer-endpoints">
-            Endpoints: /api/fleet · /api/predict/batch · /api/predict/telemetry · /api/predict/range · /api/simulate/state
-          </span>
+          <span>GreenFlow AI · Fleet Optimisation Console</span>
         </footer>
       </div>
 

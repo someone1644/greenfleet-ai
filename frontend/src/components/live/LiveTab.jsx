@@ -296,7 +296,7 @@ export default function LiveTab({
               <span className="panel-hint">
                 {selectedVehicle
                   ? `Showing ${selectedVehicle.driver}'s route only — click again to show all`
-                  : 'Real-time GPS Simulation Active'}
+                  : 'GPS Simulation Active'}
               </span>
             </div>
             <div className="leaflet-map-wrap">
@@ -407,7 +407,7 @@ export default function LiveTab({
           <section className="panel">
             <div className="panel-head">
               <h2>All Drivers — Live Fleet Manager View</h2>
-              <span className="panel-hint">ML Model 2 Continuous Telemetry</span>
+              <span className="panel-hint">Telemetry Prediction Model</span>
             </div>
             <div className="table-scroll" style={{ maxHeight: '280px' }}>
               <table className="data-table">

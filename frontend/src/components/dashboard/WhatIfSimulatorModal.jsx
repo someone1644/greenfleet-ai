@@ -120,7 +120,7 @@ export default function WhatIfSimulatorModal({ isOpen, onClose }) {
           {/* Diesel Fuel Price */}
           <div className="space-y-1">
             <div className="flex justify-between text-slate-300 font-medium">
-              <span>Fuel Price Assumption</span>
+              <span>Diesel Benchmark Price</span>
               <span className="text-rose-400 font-mono font-bold">₹{dieselPrice} / L</span>
             </div>
             <input
@@ -134,7 +134,7 @@ export default function WhatIfSimulatorModal({ isOpen, onClose }) {
             />
             <div className="flex justify-between text-[10px] text-slate-500 font-mono">
               <span>₹70/L (Low)</span>
-              <span>₹94/L (Standard)</span>
+              <span>₹95/L (Reference)</span>
               <span>₹130/L (Surge)</span>
             </div>
           </div>
