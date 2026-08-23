@@ -11,6 +11,7 @@ import WhyModal from './components/plan/WhyModal.jsx'
 import WhatIfModal from './components/plan/WhatIfModal.jsx'
 import ScenarioModal from './components/plan/ScenarioModal.jsx'
 import ShiftSummaryModal from './components/plan/ShiftSummaryModal.jsx'
+import AddOrderModal from './components/plan/AddOrderModal.jsx'
 import api from './services/api.js'
 
 // ---------------------------------------------------------------------------
@@ -146,6 +147,8 @@ export default function App() {
   const [activeSubtab, setActiveSubtab] = useState('routes')
   const [analyticsCategory, setAnalyticsCategory] = useState('planned_vs_actual')
   const [scenario, setScenario] = useState('normal')
+  const [selectedDate, setSelectedDate] = useState('2026-08-22')
+  const [addOrderModalOpen, setAddOrderModalOpen] = useState(false)
   const [isOptimized, setIsOptimized] = useState(false)
   const [isRunning, setIsRunning] = useState(false)
   const [isLocked, setIsLocked] = useState(false)
@@ -170,6 +173,31 @@ export default function App() {
   const [solverLogs, setSolverLogs] = useState([])
 
   const currentRoutes = scenario === 'peak' ? [...ROUTES_BASE, ROUTE_SURGE] : ROUTES_BASE
+
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate)
+    showToast(`Planning shift date set to ${newDate}`)
+  }
+
+  const handleSaveOrder = (newOrder) => {
+    setOrders((prev) => [newOrder, ...prev])
+    showToast(`Order ${newOrder.id} (${newOrder.loc}, ${newOrder.boxes} boxes) created`)
+  }
+
+  const handleCopyOrders = (copiedList) => {
+    showToast(`Copied ${copiedList.length} order(s) JSON to clipboard`)
+  }
+
+  const handleUnscheduleOrders = (orderIds) => {
+    if (orderIds.length === 0) {
+      showToast('Select orders using the checkboxes first')
+      return
+    }
+    setOrders((prev) =>
+      prev.map((o) => (orderIds.includes(o.id) ? { ...o, route: '—' } : o))
+    )
+    showToast(`${orderIds.length} order(s) unscheduled to draft pool`)
+  }
 
   // Fetch Actionable Recommendation
   const fetchRecommendation = useCallback(async () => {
@@ -446,18 +474,20 @@ export default function App() {
             <PlanToolbar
               isRunning={isRunning}
               isLocked={isLocked}
+              selectedDate={selectedDate}
+              onDateChange={handleDateChange}
               onPlanRoutes={handlePlanRoutes}
               onSimulatePeak={handleSimulatePeak}
               onReset={handleReset}
-              onImportOrders={() => showToast('Imported 17 orders for 22-08-2026')}
+              onImportOrders={() => showToast(`Imported ${orders.length} orders for ${selectedDate}`)}
               onShareRoutes={() => showToast('Route links broadcast to driver portals')}
               onRefresh={() => {
                 computeBaseline()
-                showToast('Plan refreshed')
+                showToast('Plan & baseline metrics refreshed')
               }}
               onToggleLock={() => {
                 setIsLocked(!isLocked)
-                showToast(isLocked ? 'Plan unlocked' : 'Plan locked against edits')
+                showToast(!isLocked ? 'Plan locked against edits' : 'Plan unlocked for editing')
               }}
               onOpenWhatIf={() => setWhatIfModalOpen(true)}
               onOpenScenarios={() => setScenarioModalOpen(true)}
@@ -469,9 +499,9 @@ export default function App() {
               <OrdersSubpanel
                 orders={orders}
                 scenario={scenario}
-                onAddOrder={() => showToast('New order draft created')}
-                onCopyOrders={() => showToast('Orders copied to next planning date')}
-                onUnscheduleOrders={(ids) => showToast(`${ids.length} orders unscheduled`)}
+                onAddOrder={() => setAddOrderModalOpen(true)}
+                onCopyOrders={handleCopyOrders}
+                onUnscheduleOrders={handleUnscheduleOrders}
               />
             )}
 
@@ -570,6 +600,13 @@ export default function App() {
         routes={currentRoutes}
         assignment={assignment}
         isOptimized={isOptimized}
+      />
+
+      <AddOrderModal
+        isOpen={addOrderModalOpen}
+        onClose={() => setAddOrderModalOpen(false)}
+        onSaveOrder={handleSaveOrder}
+        availableRoutes={currentRoutes}
       />
     </div>
   )
