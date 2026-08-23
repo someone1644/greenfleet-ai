@@ -300,25 +300,25 @@ export default function App() {
     }, 2800)
   }, [])
 
-  // Baseline Calculation (Uncoordinated / Heuristic dispatch with inefficiency)
+  // Baseline Calculation (Deterministic 1-to-1 baseline)
   const computeBaseline = useCallback(() => {
     const base = {}
     VEHICLES_INIT.forEach((v) => { base[v.id] = [] })
 
     if (scenario === 'peak') {
-      // Peak baseline: V005 in maintenance, surge route R06 unoptimally distributed
+      // Peak baseline: V005 in maintenance
       base['V001'] = ['R01']
       base['V002'] = ['R02']
-      base['V003'] = ['R03', 'R05']
-      base['V004'] = ['R04', 'R06']
+      base['V003'] = ['R03']
+      base['V004'] = ['R04']
       base['V005'] = []
     } else {
-      // Normal baseline: uncoordinated heuristic pairings (sub-optimal fuel efficiency & capacity mismatch)
-      base['V001'] = ['R03'] // Mini Truck on short route
-      base['V002'] = ['R01'] // Refrigerated Van on Guindy
-      base['V003'] = ['R04'] // Petrol Van on heavy Ambattur route (capacity strain: 14 < 16)
-      base['V004'] = ['R02'] // Heavy Truck on light T Nagar route (high consumption)
-      base['V005'] = ['R05'] // CNG on Tambaram
+      // Normal baseline: clean 1-to-1 assignment
+      base['V001'] = ['R01']
+      base['V002'] = ['R02']
+      base['V003'] = ['R03']
+      base['V004'] = ['R04']
+      base['V005'] = ['R05']
     }
 
     setBaselineAssignment(base)
