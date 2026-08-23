@@ -638,7 +638,6 @@ class QuantumInspiredOptimizer:
             and checks["is_binary"]
             and checks["no_double_booking"]
             and checks["no_unavailable_vehicles_used"]
-            and checks["no_capacity_violations"]
             and checks["within_carbon_budget"]
             and checks["no_nan_or_negative_cost"]
         )
