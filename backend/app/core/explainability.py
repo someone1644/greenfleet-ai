@@ -365,10 +365,15 @@ def explain_assignment(
                     f"{target_vehicle.vehicle_id} was allocated by deterministic index priority."
                 )
         else:
+            delta_pts_str = f"+{best_alt_details.delta_score:.1f} pts" if best_alt_details.delta_score >= 0 else f"{best_alt_details.delta_score:.1f} pts"
+            if best_alt_details.delta_fuel_l > 0:
+                savings_str = f"saving {best_alt_details.delta_fuel_l:.1f} L fuel and {best_alt_details.delta_co2_kg:.1f} kg CO2e"
+            else:
+                savings_str = f"selected for optimal global QUBO cost ({target_details.assignment_cost:.1f} vs {best_alt_details.assignment_cost:.1f})"
+
             summary_verdict = (
                 f"{target_vehicle.vehicle_id} was selected over {best_alt_details.vehicle_id} with a suitability score of "
-                f"{target_score_obj.overall_score:.1f}/100 (+{best_alt_details.delta_score:.1f} pts), saving {best_alt_details.delta_fuel_l:.1f} L fuel "
-                f"and {best_alt_details.delta_co2_kg:.1f} kg CO2e (QUBO cost: {target_details.assignment_cost:.1f} vs {best_alt_details.assignment_cost:.1f})."
+                f"{target_score_obj.overall_score:.1f}/100 ({delta_pts_str}), {savings_str}."
             )
     else:
         summary_verdict = (

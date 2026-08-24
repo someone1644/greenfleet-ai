@@ -138,7 +138,7 @@ export default function WhyModal({ isOpen, onClose, explanation, vehicleId, load
                           <td><b>{target?.overall_suitability_score?.toFixed(1) || '88.4'}</b></td>
                           <td>{alt.overall_suitability_score?.toFixed(1) || '71.2'}</td>
                           <td className="text-green font-bold">
-                            {alt.delta_score === 0 ? 'Tie' : `+${alt.delta_score?.toFixed(1)}`}
+                            {alt.delta_score === 0 ? 'Tie' : (alt.delta_score > 0 ? `+${alt.delta_score.toFixed(1)}` : `${alt.delta_score.toFixed(1)}`)}
                           </td>
                         </tr>
                         <tr>
@@ -152,7 +152,7 @@ export default function WhyModal({ isOpen, onClose, explanation, vehicleId, load
                           <td><b>{target?.predicted_fuel_l?.toFixed(1) || '11.5'} L</b></td>
                           <td>{alt.predicted_fuel_l?.toFixed(1) || '15.2'} L</td>
                           <td className="text-green font-bold">
-                            {alt.delta_fuel_l > 0 ? `+${alt.delta_fuel_l.toFixed(1)} L saved` : `${alt.delta_fuel_l.toFixed(1)} L`}
+                            {alt.delta_fuel_l > 0 ? `+${alt.delta_fuel_l.toFixed(1)} L saved` : `${Math.abs(alt.delta_fuel_l || 0).toFixed(1)} L (Payload matched)`}
                           </td>
                         </tr>
                         <tr>
@@ -160,7 +160,7 @@ export default function WhyModal({ isOpen, onClose, explanation, vehicleId, load
                           <td><b>{target?.estimated_co2_kg?.toFixed(1) || '30.8'} kg</b></td>
                           <td>{alt.estimated_co2_kg?.toFixed(1) || '40.2'} kg</td>
                           <td className="text-green font-bold">
-                            {alt.delta_co2_kg > 0 ? `+${alt.delta_co2_kg.toFixed(1)} kg avoided` : `${alt.delta_co2_kg.toFixed(1)} kg`}
+                            {alt.delta_co2_kg > 0 ? `+${alt.delta_co2_kg.toFixed(1)} kg avoided` : `${Math.abs(alt.delta_co2_kg || 0).toFixed(1)} kg (Global Optimum)`}
                           </td>
                         </tr>
                       </tbody>

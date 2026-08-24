@@ -114,7 +114,7 @@ export default function LiveTab({
 }) {
   const [liveTick, setLiveTick] = useState(0)
   const [harshEventDrivers, setHarshEventDrivers] = useState(new Set())
-  const [selectedDriverId, setSelectedDriverId] = useState(null)
+  const [selectedDriverId, setSelectedDriverId] = useState(vehicles[0]?.id || 'V001')
   const [roadPaths, setRoadPaths] = useState({}) // routeId -> [[lat,lng], ...] real road geometry
 
   // Real ML Inference State from Model 2 (POST /api/predict/telemetry)
@@ -151,13 +151,13 @@ export default function LiveTab({
 
   /**
    * Evaluates telemetry window via backend LightGBM Model 2 (POST /api/predict/telemetry).
-   * Sends actual telemetry frames based on current driving conditions.
+   * Sends realistic multi-frame telemetry with fuel_rate_lph to compute real waste, financial cost, and CO2.
    */
   const evaluateTelemetryML = useCallback(async (vehicleId, isHarsh) => {
-    const v = vehicles.find((x) => x.id === vehicleId) || { id: vehicleId, type: 'Truck', fuel: 'Diesel' }
+    const v = vehicles.find((x) => x.id === vehicleId) || { id: vehicleId, type: 'Mini Truck', fuel: 'Diesel' }
     
-    // Construct real simulated telemetry frames for the ML inference pipeline
-    const window = isHarsh
+    // Construct representative 60-second driving episode with active fuel rates
+    const baseFrames = isHarsh
       ? [
           {
             vehicle_id: v.id,
@@ -170,6 +170,7 @@ export default function LiveTab({
             throttle_position_pct: 90.0,
             brake_pressure_pct: 75.0,
             engine_load_pct: 95.0,
+            fuel_rate_lph: 24.5,
             road_slope_pct: 0.0,
             traffic_level: 'High',
             road_type: 'Urban',
@@ -187,6 +188,7 @@ export default function LiveTab({
             throttle_position_pct: 95.0,
             brake_pressure_pct: 85.0,
             engine_load_pct: 98.0,
+            fuel_rate_lph: 28.2,
             road_slope_pct: 0.0,
             traffic_level: 'High',
             road_type: 'Urban',
@@ -206,6 +208,7 @@ export default function LiveTab({
             throttle_position_pct: 35.0,
             brake_pressure_pct: 5.0,
             engine_load_pct: 45.0,
+            fuel_rate_lph: 7.2,
             road_slope_pct: 0.0,
             traffic_level: 'Medium',
             road_type: 'Highway',
@@ -223,6 +226,7 @@ export default function LiveTab({
             throttle_position_pct: 32.0,
             brake_pressure_pct: 0.0,
             engine_load_pct: 42.0,
+            fuel_rate_lph: 7.0,
             road_slope_pct: 0.0,
             traffic_level: 'Medium',
             road_type: 'Highway',
@@ -230,6 +234,10 @@ export default function LiveTab({
             idle_duration_sec: 0,
           },
         ]
+
+    const window = isHarsh
+      ? Array.from({ length: 60 }, (_, i) => ({ ...baseFrames[i % 2], fuel_level_l: 45.0 - (i * 0.01) }))
+      : Array.from({ length: 60 }, (_, i) => ({ ...baseFrames[i % 2], fuel_level_l: 48.0 - (i * 0.002) }))
 
     try {
       setTelemetryLoading(true)
@@ -317,7 +325,7 @@ export default function LiveTab({
                   <Popup>
                     <div className="map-popup">
                       <strong>DEPOT</strong>
-                      <div className="map-popup-sub">GreenFlow AI Fleet Hub</div>
+                      <div className="map-popup-sub">GreenFleet AI Fleet Hub</div>
                     </div>
                   </Popup>
                 </Marker>

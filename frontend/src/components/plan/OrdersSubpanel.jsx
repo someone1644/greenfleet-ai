@@ -38,6 +38,24 @@ export default function OrdersSubpanel({
     })
   }
 
+  const handleCopy = () => {
+    const targetOrders = selectedIds.size > 0 
+      ? orders.filter((o) => selectedIds.has(o.id))
+      : orders
+    navigator.clipboard.writeText(JSON.stringify(targetOrders, null, 2))
+    if (onCopyOrders) {
+      onCopyOrders(targetOrders)
+    }
+  }
+
+  const handleUnschedule = () => {
+    const ids = Array.from(selectedIds)
+    if (onUnscheduleOrders) {
+      onUnscheduleOrders(ids)
+    }
+    setSelectedIds(new Set())
+  }
+
   return (
     <section className="subpanel active">
       <div className="panel">
@@ -54,18 +72,20 @@ export default function OrdersSubpanel({
             <button
               type="button"
               className="btn btn-ghost"
-              onClick={onCopyOrders}
+              onClick={handleCopy}
               style={{ padding: '7px 12px' }}
+              title="Copy active or selected orders as JSON to clipboard"
             >
               Copy orders
             </button>
             <button
               type="button"
               className="btn btn-ghost"
-              onClick={() => onUnscheduleOrders(Array.from(selectedIds))}
+              onClick={handleUnschedule}
               style={{ padding: '7px 12px' }}
+              title="Unassign selected orders from current dispatch"
             >
-              Unschedule
+              Unschedule {selectedIds.size > 0 ? `(${selectedIds.size})` : ''}
             </button>
             <div className="divider"></div>
             <input

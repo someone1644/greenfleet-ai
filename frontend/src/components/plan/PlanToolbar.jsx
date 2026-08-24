@@ -3,6 +3,8 @@ import React from 'react'
 export default function PlanToolbar({
   isRunning = false,
   isLocked = false,
+  selectedDate = '2026-08-22',
+  onDateChange,
   onPlanRoutes,
   onSimulatePeak,
   onReset,
@@ -20,10 +22,10 @@ export default function PlanToolbar({
       <span className="po-date-label">Select date:</span>
       <input
         className="po-date-input"
-        type="text"
-        value="22-08-2026"
-        readOnly
-        title="Planning date"
+        type="date"
+        value={selectedDate}
+        onChange={(e) => onDateChange && onDateChange(e.target.value)}
+        title="Select planning shift date"
       />
 
       <button

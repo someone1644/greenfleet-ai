@@ -1,5 +1,5 @@
 /**
- * GreenFlow AI - Central Frontend API Client
+ * GreenFleet AI - Central Frontend API Client
  * Centralizes all backend REST communication with the FastAPI server.
  */
 
@@ -270,6 +270,41 @@ export async function getScenarioMatrix() {
   return request('/api/simulate/scenarios')
 }
 
+// --------------------------------------------------------------------------
+// 7. Carbon Credits Ledger Endpoints
+// --------------------------------------------------------------------------
+
+/**
+ * Fetch full list of recorded optimization runs with avoided emissions and potential credit equivalents.
+ */
+export async function getCarbonLedger() {
+  return request('/api/carbon/ledger')
+}
+
+/**
+ * Fetch cumulative summary KPIs for Carbon Ledger.
+ */
+export async function getCarbonLedgerSummary() {
+  return request('/api/carbon/ledger/summary')
+}
+
+/**
+ * Fetch single carbon ledger audit record by ledger_id.
+ */
+export async function getCarbonLedgerRecord(ledgerId) {
+  return request(`/api/carbon/ledger/${ledgerId}`)
+}
+
+/**
+ * Record an optimization run into the ledger.
+ */
+export async function recordOptimizationRun(payload) {
+  return request('/api/carbon/ledger/record', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 
 export default {
   getSimulationState,
@@ -286,6 +321,10 @@ export default {
   getRecommendation,
   simulateWhatIf,
   getScenarioMatrix,
+  getCarbonLedger,
+  getCarbonLedgerSummary,
+  getCarbonLedgerRecord,
+  recordOptimizationRun,
   getFleet,
   getVehicleTypes,
   registerVehicle,

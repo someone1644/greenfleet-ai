@@ -1,15 +1,21 @@
 import React from 'react'
+import CarbonLedgerPanel from './CarbonLedgerPanel.jsx'
 
 export default function AnalyticsTab({
   activeCategory = 'planned_vs_actual',
   vehicles = [],
   routes = [],
   assignment = {},
+  isOptimized = false,
+  scenario = 'normal',
 }) {
   const driverLabels = vehicles.map((v) => v.driver.replace('Driver ', 'D'))
 
   const renderContent = () => {
     switch (activeCategory) {
+      case 'carbon_ledger':
+        return <CarbonLedgerPanel isOptimized={isOptimized} scenario={scenario} />
+
       case 'planned_vs_actual':
         return (
           <div className="panel analytics-chart-card">

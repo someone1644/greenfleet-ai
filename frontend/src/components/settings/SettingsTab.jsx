@@ -89,7 +89,7 @@ export default function SettingsTab({ carbonBudget, onShowToast, onVehicleRegist
           <h2>Fleet Profile</h2>
           <div className="field-row">
             <label>Company name</label>
-            <input defaultValue="GreenFlow Logistics Pvt. Ltd." readOnly />
+            <input defaultValue="GreenFleet Logistics Pvt. Ltd." readOnly />
           </div>
           <div className="field-row">
             <label>Depot location</label>
