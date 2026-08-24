@@ -1,4 +1,4 @@
-# GreenFleet AI 🌿⚡
+# GreenFleet AI 
 ### Intelligent Fleet Decarbonization & Quantum-Inspired Route Optimization Platform
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B%20%7C%203.12-blue.svg)](https://www.python.org/)
@@ -11,45 +11,45 @@
 
 ---
 
-## 🌟 Key Highlights & Capabilities
+## Key Highlights & Capabilities
 
-### 1. 🧠 Physics-Grounded ML & Conformal Prediction (Model 1)
+### 1. Physics-Grounded ML & Conformal Prediction (Model 1)
 - **Gradient Boosted Decision Trees (GBDT/LightGBM)** trained on high-dimensional fleet telemetry (payload, gradient, speed variance, ambient temperature, vehicle powertrain).
 - **Conformal Prediction Intervals ($90\%$ coverage guarantee):** Generates rigorous non-parametric upper and lower bounds for predicted fuel consumption rather than brittle point estimates.
 - **Risk-Averse Objective Formulation:** Downstream optimization accounts for tail uncertainty via configurable risk aversion ($\lambda$).
 
-### 2. ⚛️ Quantum-Inspired Route Optimization (QUBO)
+### 2. Quantum-Inspired Route Optimization (QUBO)
 - Formulates fleet dispatch as a **Quadratic Unconstrained Binary Optimization (QUBO)** problem.
 - Solved via **Simulated Annealing** with automatic fallback to **Mixed-Integer Linear Programming (MILP)** and the **Hungarian Algorithm**.
 - Optimizes assignment across heterogeneous vehicle types (EV, Diesel, Petrol, CNG, Hybrid) while strictly enforcing hard constraints (load capacity, route range, time windows, and vehicle availability).
 
-### 3. 🛡️ Dynamic Carbon Budget Governor & Hard Cap
+### 3. Dynamic Carbon Budget Governor & Hard Cap
 - Continuously monitors cumulative fleet emissions against organizational carbon budgets.
 - Automatically computes a dynamic carbon penalty multiplier ($1.0\times \to 2.0\times$) during surge conditions (e.g., peak demand, extreme traffic).
 - Hard constraint enforcement guarantees total fleet emissions never exceed mandated thresholds.
 
-### 4. 📡 Continuous Telemetry & Driver Behavior Scoring (Model 2)
+### 4. Continuous Telemetry & Driver Behavior Scoring (Model 2)
 - Evaluates driving events in real-time (harsh acceleration, hard braking, excessive idling, speeding).
 - Computes dynamic driver efficiency scores ($0 - 100$) and feeds behavioral efficiency multipliers back into dispatch predictions.
 
-### 5. 💰 Multi-Fuel Commercial Economics & Shadow Valuation
+### 5. Multi-Fuel Commercial Economics & Shadow Valuation
 - **Direct Cash Fuel Spend Saved:** Calculates direct fuel cost reduction accounting for actual fuel prices (Diesel ₹95/L, Petrol ₹105/L, CNG ₹85/kg, EV ₹8/kWh).
 - **Internal Carbon Shadow Valuation:** Evaluates avoided emissions at a corporate carbon rate of **₹2,500 / tonne $\text{CO}_2$** (₹2.50 / kg).
 - **Differentiated ROI:** Clearly separates physical fuel volume saved, direct cash saved, and carbon shadow value.
 
-### 6. 📜 Isolated Carbon Credits Ledger
+### 6. Isolated Carbon Credits Ledger
 - Audit-ready quantification of avoided $\text{CO}_2$ emissions across optimization runs.
 - Tracks potential carbon-credit equivalents ($1\text{ tCO}_2\text{e} = 1\text{ potential unit}$) with clear verification disclosures (*Quantification only — not certified/issued credits*).
 - Full step-by-step calculation transparency for ESG reporting and compliance audits.
 
-### 7. 🔍 Explainable AI (XAI) & Counterfactuals
+### 7. Explainable AI (XAI) & Counterfactuals
 - Transparent vehicle suitability scoring ($0 - 100$).
 - Shapley-inspired feature attribution breakdown (Payload, Distance, Gradient, Powertrain match).
 - Clear, natural-language *"Why was Vehicle A chosen over Vehicle B?"* explanations.
 
 ---
 
-## 🖥️ Platform Architecture
+## Platform Architecture
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -85,7 +85,7 @@
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 greenfleet-ai/
@@ -116,7 +116,7 @@ greenfleet-ai/
 
 ---
 
-## 🚀 Quickstart Guide
+## Quickstart Guide
 
 ### Prerequisites
 - **Python 3.11+** or **3.12**
@@ -164,7 +164,7 @@ Open your browser and navigate to **`http://localhost:5173/`**.
 
 ---
 
-## 🧪 Testing & Verification
+## Testing & Verification
 
 GreenFleet AI includes an automated verification and testing pipeline:
 
@@ -184,7 +184,7 @@ python scripts/verify_p0_demo.py
 
 ---
 
-## 📊 Live Verification Stages (`verify_p0_demo.py`)
+## Live Verification Stages (`verify_p0_demo.py`)
 
 1. **Stage 1: Normal Baseline State** — 12 routes, 20 vehicles, 69.6% carbon budget utilization.
 2. **Stage 2: Peak Demand Anomaly** — 15 routes, carbon governor penalty increases to $1.52\times$.
@@ -195,5 +195,5 @@ python scripts/verify_p0_demo.py
 
 ---
 
-## 📄 License
+## License
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
